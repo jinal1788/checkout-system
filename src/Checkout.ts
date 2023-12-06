@@ -38,6 +38,7 @@ import ProductRepository from "./repository/ProductRepository";
                     }
                     totalAmount += pricingStrategy.apply(itemPrice, quantity);
                 } else {
+                    // No pricingStrategy found, go for default rule
                     totalAmount += itemPrice * quantity;
                 }
             } catch (error) {
@@ -46,6 +47,8 @@ import ProductRepository from "./repository/ProductRepository";
             }
             
         }
+
+        //Total Amount
         return Number(totalAmount.toFixed(2));
     }
 }

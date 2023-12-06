@@ -1,5 +1,7 @@
 import PricingRuleInterface from "@/interface/PricingRuleInterface";
 
+// BulkDiscount Rule stretegy is mainly used for buying x quantity of item, item will be on special price
+// for ex the brand new Super iPad will have a bulk discounted applied, where the price will drop to $499.99 each, if someone buys more than 4
 export class BulkDiscountRule implements PricingRuleInterface {
 
     private threshold: number;

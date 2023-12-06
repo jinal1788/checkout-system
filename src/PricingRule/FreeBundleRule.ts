@@ -1,5 +1,7 @@
 import PricingRuleInterface from "@/interface/PricingRuleInterface";
 
+// FreeBundleRule Rule stretegy is mainly used for when you buy x product, you will get y product free
+// For ex. we will bundle in a free VGA adapter free of charge with every MacBook Pro sold
 export class FreeBundleRule implements PricingRuleInterface {
 
     private itemQuantities: Map<string, number>;
