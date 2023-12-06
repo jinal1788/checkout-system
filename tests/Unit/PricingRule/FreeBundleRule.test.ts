@@ -47,4 +47,12 @@ describe('PricingRule/FreeBundleRule', () => {
         expect(freeBundleRule.getItem()).toBe('mbp');
         expect(items.get('vga')).toBe(0);
     });
+
+    test('when item is not set, it should throw error', () => {
+        items.set('mbp', 1);
+        items.set('vga', 1);
+        freeBundleRule.setItemQuantities(items);
+        const appliedRuleAmount = () => freeBundleRule.apply(500, 3);
+        expect(appliedRuleAmount).toThrowError('FreeBundleRule not properly initialized. Set item before calculating free bundle rule.');
+    })
 });

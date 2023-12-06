@@ -27,19 +27,24 @@ import ProductRepository from "./repository/ProductRepository";
         let totalAmount: number = 0;
 
         for (const [item, quantity] of this.itemQuantities.entries()) {
-            const itemPrice: number = this.productRepo.getProductPrice(item) || 0;
-           // console.log(this.pricingRules)
-            const pricingStrategy: PricingRuleInterface | undefined = this.pricingRules.get(item);
-           // console.log(pricingStrategy);
-            if (pricingStrategy) {
-                if (pricingStrategy instanceof FreeBundleRule) {
-                    pricingStrategy.setItemQuantities(this.itemQuantities);
-                    pricingStrategy.setItem(item);
+            try {
+                const itemPrice: number = this.productRepo.getProductPrice(item) || 0;
+                const pricingStrategy: PricingRuleInterface | undefined = this.pricingRules.get(item);
+            
+                if (pricingStrategy) {
+                    if (pricingStrategy instanceof FreeBundleRule) {
+                        pricingStrategy.setItemQuantities(this.itemQuantities);
+                        pricingStrategy.setItem(item);
+                    }
+                    totalAmount += pricingStrategy.apply(itemPrice, quantity);
+                } else {
+                    totalAmount += itemPrice * quantity;
                 }
-                totalAmount += pricingStrategy.apply(itemPrice, quantity);
-            } else {
-                totalAmount += itemPrice * quantity;
+            } catch (error) {
+                // Log error and continue with next item in loop
+                console.error(`Error processing item "${item}": ${error.message}`);
             }
+            
         }
         return Number(totalAmount.toFixed(2));
     }

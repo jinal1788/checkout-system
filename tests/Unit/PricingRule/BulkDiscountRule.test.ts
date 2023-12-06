@@ -26,4 +26,14 @@ describe('PricingRule/BulkDiscount', () => {
         const appliedRuleAmount = bulkDiscountRule.apply(9999.99, 3);
         expect(appliedRuleAmount).toBe(29999.97);
     })
+
+    test('when bulk discount threshold less than zero, it should throw error', async () => {
+        const bulkDiscountObj = () => new BulkDiscountRule(-344, -34);
+        expect(bulkDiscountObj).toThrowError('Threshold and discounted price must be non-negative values.');
+    });
+
+    test('when original price is less than zero and qty is less than zero, it should throw error', async () => {
+        const appliedRuleAmount = () => bulkDiscountRule.apply(-9999.99, -3);
+        expect(appliedRuleAmount).toThrowError('Original price and quantity must be non-negative values.');
+    })
 })

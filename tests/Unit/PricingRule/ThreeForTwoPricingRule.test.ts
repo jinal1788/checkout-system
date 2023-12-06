@@ -25,4 +25,10 @@ describe('PricingRule/ThreeForTwoPricingRule', () => {
         expect(appliedRuleAmount).toBe(1000);
         
     });
+
+    test('when quantity is less than zero, it should throw error', async () => {
+        const appliedRuleAmount = () => threeForTwoPricingRule.apply(500, -3);
+        expect(appliedRuleAmount).toThrowError("Quantity must be a non-negative value.");
+        
+    });
 });
